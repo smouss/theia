@@ -13,7 +13,7 @@ export abstract class AbstractTreeOutputComponent<P extends AbstractOutputProps,
             <div className='output-component-tree' id='componentTree' onScroll={()=>this.ScrollSync("componentTree")} style={{ width: treeWidth, height: this.props.style.height }}>
                 {this.renderTree()}
             </div>
-            <div className='output-component-chart' id="componentChart" onScroll={()=>this.ScrollSync("componentChart")} style={{ width: this.props.style.chartWidth, backgroundColor: '#3f3f3f' }}>
+            <div className='output-component-chart' id="componentChart" style={{ width: this.props.style.chartWidth, backgroundColor: '#3f3f3f' }}>
                 {this.renderChart()}
                
             </div>
@@ -21,19 +21,18 @@ export abstract class AbstractTreeOutputComponent<P extends AbstractOutputProps,
     }
 
 
-
     ScrollSync(id: string) {
         var leftDiv = document.getElementById("componentTree");
-        var rightDiv = document.getElementById("componentChart");
+        var rightDiv = document.getElementById("timegraph-main");
 
         if (id=="componentTree" && rightDiv != null && leftDiv !=null ) {
             rightDiv.scrollTop = leftDiv.scrollTop;
             console.log("Scrolling Tree");
-          }
-          else if (leftDiv != null && id=="componentChart" && rightDiv !=null){
+        }
+        else if (leftDiv != null && id=="timegraph-main" && rightDiv !=null){
             leftDiv.scrollTop = rightDiv.scrollTop;
             console.log("Scrolling Chart");
-          }
+        }
     }
         
 
