@@ -44,10 +44,10 @@
 }
 
 #timegraph-main {
-    overflow-y: scroll;
-    white-space: pre-wrap;
-    width: 100%;
-    display: flex;
+    width:600px; 
+    overflow-y:scroll; 
+    position:relative;
+    height: 300px;
 }
 
 #main {

@@ -29,11 +29,11 @@ export abstract class AbstractTreeOutputComponent<P extends AbstractOutputProps,
         let chartElement = this.chartRef.current;
         let treeElement = this.treeRef.current;
         if (el==this.treeRef) {
-            chartElement.scrollLeft=Element.scrollLeft;
-            console.log('ScrollLeft-tree', Element.scrollLeft);
+            chartElement.scrollTop=Element.scrollTop;
+            console.log('Scrolltop-tree', Element.scrollTop);
         } else {
-            treeElement.scrollLeft=Element.scrollLeft;
-            console.log('chart', Element.scrollLeft);
+            treeElement.scrollTop=Element.scrollTop;
+            console.log('Scrolltop-chart', Element.scrollTop);
         }
     }
         
