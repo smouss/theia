@@ -104,12 +104,11 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
 
     renderTree(): React.ReactNode {
         return <React.Fragment>
-            {this.state.timegraphTree.map(entry => {
+            {this.state.timegraphTree.map((entry, i) => {
                 if (entry.parentId !== -1) {
-                    return <p style={{height: this.props.style.rowHeight, margin: 0}}>
+                    return <p style={{height: this.props.style.rowHeight, margin: 0}} key={i}>
                         {entry.labels[0] + '\n'}
-                    </p>
-                    
+                    </p>                    
                 }
             })}
         </React.Fragment>;
