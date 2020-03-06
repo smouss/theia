@@ -115,7 +115,7 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
     renderChart(): React.ReactNode {
         return <React.Fragment>
             {this.state.outputStatus === ResponseStatus.COMPLETED ?
-                <div id='timegraph-main' className='ps__child--consume' onWheel={ev => { ev.preventDefault(); ev.stopPropagation(); this.ScrollSync("timegraph-main") }} >
+                <div ref={this.chartRef} id='timegraph-main' className='ps__child--consume' onScroll={ev => this.ScrollSync(this.chartRef, ev.persist()) } >
                     {this.renderTimeGraphContent()}
                 </div> :
                 'Analysis running...'}
@@ -123,7 +123,7 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
     }
 
     private renderTimeGraphContent() {
-        return <div id='main-timegraph-content' ref={this.horizontalContainer}>
+        return <div id='main-timegraph-content' ref={this.horizontalContainer} onScroll={ev => this.ScrollSync(this.chartRef, ev.persist()) } >
             {this.getChartContainer()}
         </div>
     }

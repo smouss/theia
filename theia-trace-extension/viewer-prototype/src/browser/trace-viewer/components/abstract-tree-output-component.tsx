@@ -10,28 +10,30 @@ export abstract class AbstractTreeOutputComponent<P extends AbstractOutputProps,
         const treeWidth = this.props.style.width - this.props.style.chartWidth - this.getHandleWidth();
         return <React.Fragment>
 
-            <div className='output-component-tree' id='componentTree' onScroll={()=>this.ScrollSync("componentTree")} style={{ width: treeWidth, height: this.props.style.height }}>
+        <div ref={this.treeRef} className='output-component-tree' id='componentTree' onScroll={ev=>this.ScrollSync(this.treeRef, ev.persist)} style={{ width: treeWidth, height: this.props.style.height }}>
                 {this.renderTree()}
             </div>
-            <div className='output-component-chart' id="componentChart" style={{ width: this.props.style.chartWidth, backgroundColor: '#3f3f3f' }}>
+            <div  className='output-component-chart' id="componentChart" onScroll={ev=>this.ScrollSync(this.chartRef, ev.persist)} style={{ width: this.props.style.chartWidth, backgroundColor: '#3f3f3f' }}>
                 {this.renderChart()}
                
             </div>
         </React.Fragment>;
     }
 
+    treeRef = React.createRef<any>();
+    chartRef = React.createRef<any>();
 
-    ScrollSync(id: string) {
-        var leftDiv = document.getElementById("componentTree");
-        var rightDiv = document.getElementById("timegraph-main");
 
-        if (id=="componentTree" && rightDiv != null && leftDiv !=null ) {
-            rightDiv.scrollTop = leftDiv.scrollTop;
-            console.log("Scrolling Tree");
-        }
-        else if (leftDiv != null && id=="timegraph-main" && rightDiv !=null){
-            leftDiv.scrollTop = rightDiv.scrollTop;
-            console.log("Scrolling Chart");
+    ScrollSync(el: React.RefObject<any>, event: any) {
+        let Element = el.current;
+        let chartElement = this.chartRef.current;
+        let treeElement = this.treeRef.current;
+        if (el==this.treeRef) {
+            chartElement.scrollLeft=Element.scrollLeft;
+            console.log('ScrollLeft-tree', Element.scrollLeft);
+        } else {
+            treeElement.scrollLeft=Element.scrollLeft;
+            console.log('chart', Element.scrollLeft);
         }
     }
         

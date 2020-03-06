@@ -12,5 +12,8 @@
     "viewer-prototype",
     "browser-app",
     "electron-app"
-  ]
+  ],
+  "dependencies": {
+    "react-scroll-sync": "^0.7.1"
+  }
 }

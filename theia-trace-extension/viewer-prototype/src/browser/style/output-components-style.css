@@ -44,6 +44,8 @@
 }
 
 #timegraph-main {
+    overflow-y: scroll;
+    white-space: pre-wrap;
     width: 100%;
     display: flex;
 }
