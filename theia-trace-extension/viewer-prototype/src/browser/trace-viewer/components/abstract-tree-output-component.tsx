@@ -13,7 +13,7 @@ export abstract class AbstractTreeOutputComponent<P extends AbstractOutputProps,
         <div ref={this.treeRef} className='output-component-tree' id='componentTree' onScroll={ev=>this.ScrollSync(this.treeRef, ev.persist)} style={{ width: treeWidth, height: this.props.style.height }}>
                 {this.renderTree()}
             </div>
-            <div  className='output-component-chart' id="componentChart" onScroll={ev=>this.ScrollSync(this.chartRef, ev.persist)} style={{ width: this.props.style.chartWidth, backgroundColor: '#3f3f3f' }}>
+            <div  className='output-component-chart' id="componentChart" style={{ width: this.props.style.chartWidth, backgroundColor: '#3f3f3f' }}>
                 {this.renderChart()}
                
             </div>

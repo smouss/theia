@@ -44,7 +44,7 @@
 }
 
 #timegraph-main {
-    width:600px; 
+    width:100%; 
     overflow-y:scroll; 
     position:relative;
     height: 300px;
@@ -58,6 +58,10 @@
 
 canvas {
     display: block;
+}
+
+#main-timegraph-content {
+    display: inline-flex;
 }
 
 .innerContainer {

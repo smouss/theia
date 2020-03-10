@@ -123,9 +123,9 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
     }
 
     private renderTimeGraphContent() {
-        return <div id='main-timegraph-content' ref={this.horizontalContainer} onScroll={ev => this.ScrollSync(this.chartRef, ev.persist()) } >
-            {this.getChartContainer()}
-        </div>
+        return <div id='main-timegraph-content' ref={this.horizontalContainer} >
+                {this.getChartContainer()}
+            </div>
     }
 
     private getChartContainer() {
