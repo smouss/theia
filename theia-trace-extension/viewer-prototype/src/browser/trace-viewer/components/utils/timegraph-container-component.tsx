@@ -9,7 +9,8 @@ export namespace ReactTimeGraphContainer {
         options: TimeGraphContainerOptions,
         unitController: TimeGraphUnitController,
         layer: TimeGraphLayer[],
-        onWidgetResize: (handler: () => void) => void
+        onWidgetResize: (handler: () => void) => void,
+        scrollHandler?: any
     }
 }
 
@@ -29,6 +30,7 @@ export class ReactTimeGraphContainer extends React.Component<ReactTimeGraphConta
     }
 
     render() {
-        return <canvas ref={ref => this.ref = ref || undefined} ></canvas>
+        /*return <canvas id="canvas" ref={ref => this.ref = ref || undefined} onScroll={ev => this.props.scrollHandler(this.ref, ev.persist()) } ></canvas>*/
+        return <canvas id="canvas" height="22940px" ref={ref => this.ref = ref || undefined} onScroll={ev => this.props.scrollHandler(this.ref, ev.persist()) } ></canvas>
     }
 }

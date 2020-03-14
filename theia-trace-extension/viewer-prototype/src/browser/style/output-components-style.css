@@ -61,7 +61,8 @@ canvas {
 }
 
 #main-timegraph-content {
-    display: inline-flex;
+    height: 22940px;
+    display: inline-block;
 }
 
 .innerContainer {
