@@ -60,10 +60,6 @@ canvas {
     display: block;
 }
 
-#main-timegraph-content {
-    height: 22940px;
-    display: inline-block;
-}
 
 .innerContainer {
     width: 100%;

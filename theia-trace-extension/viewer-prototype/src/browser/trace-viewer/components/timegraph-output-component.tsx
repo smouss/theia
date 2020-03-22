@@ -104,9 +104,11 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
 
     renderTree(): React.ReactNode {
         return <React.Fragment>
-            {this.state.timegraphTree.map(entry => {
+            {this.state.timegraphTree.map((entry, i) => {
                 if (entry.parentId !== -1) {
-                    return entry.labels[0] + '\n'                   
+                    return <p style={{height: this.props.style.rowHeight, margin:0}} key={i}>
+                             {entry.labels[0] + '\n'}   
+                        </p>                
                 }
             })}
         </React.Fragment>;
@@ -134,17 +136,20 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
         const grid = new TimeGraphChartGrid('timeGraphGrid', this.props.style.rowHeight, this.props.style.lineColor);
         const cursors = new TimeGraphChartCursors('chart-cursors', this.chartLayer, this.rowController, { color: this.props.style.cursorColor });
         const selectionRange = new TimeGraphChartSelectionRange('chart-selection-range', { color: this.props.style.cursorColor });
-        return <ReactTimeGraphContainer
+        console.log('totalheight', this.totalHeight);
+        if (this.totalHeight === 0) {
+            setTimeout(this.getChartContainer, 2000);
+        } else {
+            return <ReactTimeGraphContainer
             options={
                 {
                     id: 'timegraph-chart',
-                    height: 22900,
+                    height: this.totalHeight,
                     width: this.props.style.chartWidth, // this.props.style.mainWidth,
                     backgroundColor: this.props.style.chartBackgroundColor,
                     classNames: 'horizontal-canvas'
                 }
             }
-            scrollHandler={this.ScrollSync}
             onWidgetResize={this.props.addWidgetResizeHandler}
             unitController={this.props.unitController}
             id='timegraph-chart'
@@ -153,6 +158,8 @@ export class TimegraphOutputComponent extends AbstractTreeOutputComponent<Timegr
             ]}
         >
         </ReactTimeGraphContainer>;
+        }
+        
     }
 
     protected getVerticalScrollbar() {
