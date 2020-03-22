@@ -12,7 +12,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "/* Output component styling */\n/* Main container*/\n.output-container {\n    display: flex;\n    color: var(--theia-ui-font-color0)\n}\n\n.widget-handle {\n    background-color: var(--theia-layout-color4);\n    display: grid;\n    grid-template-rows: 25px 1fr;\n}\n.title-bar-label {\n    text-align: center;\n    writing-mode: vertical-rl;\n    height: 50%;\n    min-height: 150px;\n    transform: rotate(180deg);\n    user-select: none;\n    align-self: center;\n    justify-self: center;\n}\n.remove-component-button {\n    background: none;\n    border: none;\n    padding: 2px 8px;\n    align-self: center;\n    justify-self: center;\n    color: var(--theia-ui-font-color0)\n}\n\n.main-output-container {\n    display: flex;\n}\n\n.output-component-tree {\n    overflow-y: scroll;\n    white-space: pre-wrap;\n}\n\n.output-component-chart {\n    align-self: center;\n    text-align: center;\n}\n\n#timegraph-main {\n    width:100%; \n    overflow-y:scroll; \n    position:relative;\n    height: 300px;\n}\n\n#main {\n    border: 1px solid;\n    margin: 10px 0;\n    overflow: hidden;\n}\n\ncanvas {\n    display: block;\n}\n\n#main-timegraph-content {\n    height: 22940px;\n    display: inline-block;\n}\n\n.innerContainer {\n    width: 100%;\n}", ""]);
+exports.push([module.i, "/* Output component styling */\n/* Main container*/\n.output-container {\n    display: flex;\n    color: var(--theia-ui-font-color0)\n}\n\n.widget-handle {\n    background-color: var(--theia-layout-color4);\n    display: grid;\n    grid-template-rows: 25px 1fr;\n}\n.title-bar-label {\n    text-align: center;\n    writing-mode: vertical-rl;\n    height: 50%;\n    min-height: 150px;\n    transform: rotate(180deg);\n    user-select: none;\n    align-self: center;\n    justify-self: center;\n}\n.remove-component-button {\n    background: none;\n    border: none;\n    padding: 2px 8px;\n    align-self: center;\n    justify-self: center;\n    color: var(--theia-ui-font-color0)\n}\n\n.main-output-container {\n    display: flex;\n}\n\n.output-component-tree {\n    overflow-y: scroll;\n    white-space: pre-wrap;\n}\n\n.output-component-chart {\n    align-self: center;\n    text-align: center;\n}\n\n#timegraph-main {\n    width:100%; \n    overflow-y:scroll; \n    position:relative;\n    height: 300px;\n}\n\n#main {\n    border: 1px solid;\n    margin: 10px 0;\n    overflow: hidden;\n}\n\ncanvas {\n    display: block;\n}\n\n\n.innerContainer {\n    width: 100%;\n}", ""]);
 
 // exports
 
@@ -1178,9 +1178,9 @@ class TimegraphOutputComponent extends abstract_tree_output_component_1.Abstract
         }
     }
     renderTree() {
-        return React.createElement(React.Fragment, null, this.state.timegraphTree.map(entry => {
+        return React.createElement(React.Fragment, null, this.state.timegraphTree.map((entry, i) => {
             if (entry.parentId !== -1) {
-                return entry.labels[0] + '\n';
+                return React.createElement("p", { style: { height: this.props.style.rowHeight, margin: 0 }, key: i }, entry.labels[0] + '\n');
             }
         }));
     }
@@ -1192,21 +1192,27 @@ class TimegraphOutputComponent extends abstract_tree_output_component_1.Abstract
     //<canvas id="canvas" height="12000" ref={ref => this.horizontalContainer}></canvas>
     //<canvas id="canvas" height="12000" ref={ref => this.horizontalContainer} onScroll={ev => this.ScrollSync(this.horizontalContainer, ev.persist()) }></canvas>
     renderTimeGraphContent() {
-        return React.createElement("div", { id: 'main-timegraph-content', ref: this.horizontalContainer, onScroll: e => e.preventDefault(), style: { height: this.totalHeight } }, this.getChartContainer());
+        return React.createElement("div", { id: 'main-timegraph-content', ref: this.horizontalContainer, style: { height: this.totalHeight } }, this.getChartContainer());
     }
     getChartContainer() {
         const grid = new time_graph_chart_grid_1.TimeGraphChartGrid('timeGraphGrid', this.props.style.rowHeight, this.props.style.lineColor);
         const cursors = new time_graph_chart_cursors_1.TimeGraphChartCursors('chart-cursors', this.chartLayer, this.rowController, { color: this.props.style.cursorColor });
         const selectionRange = new time_graph_chart_selection_range_1.TimeGraphChartSelectionRange('chart-selection-range', { color: this.props.style.cursorColor });
-        return React.createElement(timegraph_container_component_1.ReactTimeGraphContainer, { options: {
-                id: 'timegraph-chart',
-                height: this.props.style.height,
-                width: this.props.style.chartWidth,
-                backgroundColor: this.props.style.chartBackgroundColor,
-                classNames: 'horizontal-canvas'
-            }, scrollHandler: this.ScrollSync, onWidgetResize: this.props.addWidgetResizeHandler, unitController: this.props.unitController, id: 'timegraph-chart', layer: [
-                grid, this.chartLayer, selectionRange, cursors
-            ] });
+        console.log('totalheight', this.totalHeight);
+        if (this.totalHeight === 0) {
+            setTimeout(this.getChartContainer, 2000);
+        }
+        else {
+            return React.createElement(timegraph_container_component_1.ReactTimeGraphContainer, { options: {
+                    id: 'timegraph-chart',
+                    height: this.totalHeight,
+                    width: this.props.style.chartWidth,
+                    backgroundColor: this.props.style.chartBackgroundColor,
+                    classNames: 'horizontal-canvas'
+                }, onWidgetResize: this.props.addWidgetResizeHandler, unitController: this.props.unitController, id: 'timegraph-chart', layer: [
+                    grid, this.chartLayer, selectionRange, cursors
+                ] });
+        }
     }
     getVerticalScrollbar() {
         return React.createElement(timegraph_container_component_1.ReactTimeGraphContainer, { id: 'vscroll', options: {
@@ -1705,7 +1711,7 @@ class ReactTimeGraphContainer extends React.Component {
     }
     render() {
         /*return <canvas id="canvas" ref={ref => this.ref = ref || undefined} onScroll={ev => this.props.scrollHandler(this.ref, ev.persist()) } ></canvas>*/
-        return React.createElement("canvas", { id: "canvas", height: "22940px", ref: ref => this.ref = ref || undefined, onScroll: ev => this.props.scrollHandler(this.ref, ev.persist()) });
+        return React.createElement("canvas", { id: "canvas", ref: ref => this.ref = ref || undefined });
     }
 }
 exports.ReactTimeGraphContainer = ReactTimeGraphContainer;
